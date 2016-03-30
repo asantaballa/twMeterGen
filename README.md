@@ -1,2 +1,2 @@
 # twMeterGen
-Generate sample meter data.
+Generate sample meter data
