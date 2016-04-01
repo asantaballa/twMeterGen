@@ -1,10 +1,72 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="./style/main.css">
+  <script src="./lib/angular-1.4.5/angular.min.js"></script>
   <script src="./script/twMeterGen.js"></script>
+  <script>
+
+    var cntClicked = 0;
+
+    function Msg(msg)
+    {
+        divMsg.innerText = msg;
+    }
+
+    function btnGenBase_onclick()
+    {
+        cntClicked++;
+        Msg(cntClicked);
+        var meterReadings = GenBase(5000, 6000);
+        DisplayResults(meterReadings);
+    }
+
+    function DisplayResults(meterReadings)
+    {
+        var results = '';
+        var i = 0;
+        for (meterReadingIndex in meterReadings)
+        {
+            i++;
+            results += ('[' + meterReadingIndex + '] ' + meterReadings[meterReadingIndex].Value + '<br />');
+        }
+        divResults.innerHTML = results;
+    }
+
+    var app = angular.module('myApp', []);
+
+    app.controller('ListingController', ['$scope', function($scope) {
+        $scope.greeting = 'By way of $scope.greeting';
+        $scope.cntClicked = -1;
+        $scope.theDate = Date();
+        $scope.btnGenBase_onclick = btnGenBase_onclick;
+
+        var meterReadings = [];
+        $scope.meterReadings = meterReadings;
+    }]);
+
+  </script>
 </head>
-<body>
-  <h1>twMeterGen</h1>
-  hello
+<body ng-app="myApp">
+    <h1>twMeterGen: Meter Data Generator</h1>
+    <div ng-controller="ListingController">
+        {{greeting}}
+        <br />
+        <div id="divMsg">[Msg]</div>
+        Times Used: {{cntClicked}}
+        <br />
+        <input id="btnGenBase" type="button" onclick="btnGenBase_onclick();" value="Gen Base" />
+        <br />
+        <div id="divResults">[Results]</div>
+        <br />
+        <table>
+            <!-- <tr ng-repeat="var meterReading in meterReadings">
+                xxx
+                <td>{{meterReading.Value}}</td>
+            </tr> -->
+        <table>
+
+        <hr/>
+    </div>
+
 </body>
 </html>
